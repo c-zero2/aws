@@ -1,0 +1,110 @@
+S3 allow and Deny V1
+--------------------
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": [
+                "arn:aws:s3:::temp02",
+                "arn:aws:s3:::temp02/*"
+            ]
+        },
+        {
+            "Effect": "Deny",
+            "Action": "s3:*",
+            "Resource": [
+                "arn:aws:s3:::temp01",
+                "arn:aws:s3:::temp01/*",
+                "arn:aws:s3:::temp03",
+                "arn:aws:s3:::temp03/*"
+            ]
+        }
+    ]
+}
+
+S3 allow and Deny V2
+---------------------
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetBucketLocation"
+            ],
+            "Resource": "arn:aws:s3:::temp02"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": [
+                "arn:aws:s3:::temp02",
+                "arn:aws:s3:::temp02/*"
+            ]
+        },
+        {
+            "Effect": "Deny",
+            "Action": [
+                "s3:ListAllMyBuckets",
+                "s3:ListBucket",
+                "s3:GetBucketLocation"
+            ],
+            "Resource": [
+                "arn:aws:s3:::temp01",
+                "arn:aws:s3:::temp03"
+            ]
+        },
+        {
+            "Effect": "Deny",
+            "Action": "s3:*",
+            "Resource": [
+                "arn:aws:s3:::temp01/*",
+                "arn:aws:s3:::temp03/*"
+            ]
+        }
+    ]
+}
+
+
+S3 allow and Deny V3 Deny All
+---------------------
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetBucketLocation"
+            ],
+            "Resource": "arn:aws:s3:::temp02"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": [
+                "arn:aws:s3:::temp02",
+                "arn:aws:s3:::temp02/*"
+            ]
+        },
+        {
+            "Effect": "Deny",
+            "Action": "s3:*",
+            "Resource": [
+                "arn:aws:s3:::*",
+                "arn:aws:s3:::*/*"
+            ],
+            "Condition": {
+                "StringNotEquals": {
+                    "s3:prefix": "temp02"
+                }
+            }
+        }
+    ]
+}
+
